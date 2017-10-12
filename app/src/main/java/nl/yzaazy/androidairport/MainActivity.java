@@ -1,9 +1,10 @@
 package nl.yzaazy.androidairport;
 
+import android.content.Intent;
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import java.util.List;
 import nl.yzaazy.androidairport.Adapter.ExpandableListAdapter;
 import nl.yzaazy.androidairport.Helper.AirportsDatabase;
 import nl.yzaazy.androidairport.Model.Airport;
-import nl.yzaazy.androidairport.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +33,17 @@ public class MainActivity extends AppCompatActivity {
 
         listAdapter = new ExpandableListAdapter(this, listDataGroup, listDataChild);
         expandableListView.setAdapter(listAdapter);
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
+                Intent intent = new Intent(getApplicationContext(), AirportActivity.class);
+                Airport airport = listDataChild.get(listDataGroup.get(groupPosition)).get(childPosition);
+                intent.putExtra("icao", airport.getIcao());
+                startActivity(intent);
+                return false;
+            }
+        });
     }
 
     private void getDataFromDatabase() {
@@ -40,12 +51,12 @@ public class MainActivity extends AppCompatActivity {
         listDataChild = new HashMap<>();
 
         Cursor groupCursor = adb.getCountryGrouped();
-        while (groupCursor.moveToNext()){
+        while (groupCursor.moveToNext()) {
             String iso_country = groupCursor.getString(groupCursor.getColumnIndex("iso_country"));
             listDataGroup.add(iso_country);
             List<Airport> airports = new ArrayList<>();
             Cursor airportCursor = adb.getAirportsByIso(iso_country);
-            while (airportCursor.moveToNext()){
+            while (airportCursor.moveToNext()) {
                 Airport airport = new Airport();
                 airport.setIcao(airportCursor.getString(airportCursor.getColumnIndex("icao")));
                 airport.setName(airportCursor.getString(airportCursor.getColumnIndex("name")));

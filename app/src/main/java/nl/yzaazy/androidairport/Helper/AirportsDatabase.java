@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
+import nl.yzaazy.androidairport.Model.Airport;
+
 public class AirportsDatabase extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "airports.sqlite";
@@ -17,7 +19,7 @@ public class AirportsDatabase extends SQLiteAssetHelper {
 
     public Cursor getAirportsByIso(String iso_country){
         SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT icao, name FROM airports WHERE iso_country = '" + iso_country + "'";
+        String query = "SELECT icao, name FROM airports WHERE iso_country = '" + iso_country + "' ORDER BY name";
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
         return c;
@@ -29,5 +31,22 @@ public class AirportsDatabase extends SQLiteAssetHelper {
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
         return c;
+    }
+
+    public Airport getAirportByIcao(String icao){
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELECT * FROM airports WHERE icao = '" + icao + "'";
+        Cursor c = db.rawQuery(query, null);
+        Airport airport = new Airport();
+        if(c.moveToFirst()){
+            airport.setIcao(c.getString(c.getColumnIndex("icao")));
+            airport.setName(c.getString(c.getColumnIndex("name")));
+            airport.setLongitude(c.getDouble(c.getColumnIndex("longitude")));
+            airport.setLatitude(c.getDouble(c.getColumnIndex("latitude")));
+            airport.setElevation(c.getDouble(c.getColumnIndex("elevation")));
+            airport.setIso_country(c.getString(c.getColumnIndex("iso_country")));
+            airport.setMunicipality(c.getString(c.getColumnIndex("municipality")));
+        }
+        return airport;
     }
 }

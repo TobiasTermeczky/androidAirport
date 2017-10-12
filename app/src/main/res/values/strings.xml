@@ -2,4 +2,13 @@
     <string name="app_name">Airports</string>
     <string name="placeholder">Placeholder</string>
     <string name="title_activity_airport">Map</string>
+    <string name="icao">Icao:</string>
+    <string name="name">Name:</string>
+    <string name="longitude">Longitude:</string>
+    <string name="latitude">Latitude:</string>
+    <string name="elevation">Elevation:</string>
+    <string name="iso_country">ISO Country:</string>
+    <string name="municipality">Municipality:</string>
+    <string name="distance">Distance:</string>
+    <string name="km_to_4_sf">km (to 4 SF)</string>
 </resources>

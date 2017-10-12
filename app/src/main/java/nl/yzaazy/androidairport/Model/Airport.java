@@ -3,9 +3,9 @@ package nl.yzaazy.androidairport.Model;
 public class Airport {
     private String icao;
     private String name;
-    private String latitude;
-    private String longitude;
-    private int elevation;
+    private Double latitude;
+    private Double longitude;
+    private Double elevation;
     private String iso_country;
     private String municipality;
 
@@ -25,27 +25,27 @@ public class Airport {
         this.name = name;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public int getElevation() {
+    public Double getElevation() {
         return elevation;
     }
 
-    public void setElevation(int elevation) {
+    public void setElevation(Double elevation) {
         this.elevation = elevation;
     }
 
